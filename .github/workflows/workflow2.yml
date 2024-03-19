@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    needs: workflow1
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - name: Your steps here
         run: echo "Workflow 2 triggered by Workflow 1 completion"
