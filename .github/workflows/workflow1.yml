@@ -1,0 +1,15 @@
+workflow1.yml:
+
+name: Workflow 1
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Your steps here
+        run: echo "Workflow 1 completed"
