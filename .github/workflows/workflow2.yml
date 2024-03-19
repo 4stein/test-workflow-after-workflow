@@ -1,5 +1,3 @@
-workflow2.yml:
-
 name: Workflow 2
 
 on:
