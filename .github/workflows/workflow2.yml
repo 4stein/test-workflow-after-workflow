@@ -3,14 +3,14 @@ name: Workflow 2
 on:
   workflow_run:
     workflows: ['Workflow 1']
-    types:
-      - completed
+    types: [completed]
+    branches: [main]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     needs: workflow1
-    if: github.event.workflow_run.conclusion == 'success'
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - name: Your steps here
         run: echo "Workflow 2 triggered by Workflow 1 completion"
