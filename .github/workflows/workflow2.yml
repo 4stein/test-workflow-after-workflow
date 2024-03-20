@@ -13,4 +13,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Your steps here
-        run: echo "Workflow 2 triggered by Workflow 1 completion"
+        run: echo "Workflow 2 triggered by Workflow 1 completion ${{ github.event.pull_request.number}}"
