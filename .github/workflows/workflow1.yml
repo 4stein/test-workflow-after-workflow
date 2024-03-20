@@ -12,16 +12,18 @@ jobs:
   lints:
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.event.pull_request == null || github.event_name == 'pull_request' && github.event.pull_request != null
+    steps:
       - name: Checkout code
         uses: actions/checkout@v2
-        
+
       - name: Check if branch is in pull request
         id: check_pr
         uses: leandrocostam/check-if-pull-request@v3
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ github.token }}
 
       - name: Run workflow if branch is in pull request
         if: steps.check_pr.outputs.pull-request
         run: |
+          # Your workflow steps here
           # Your workflow steps here
