@@ -2,12 +2,11 @@ name: Workflow 1
 
 on:
   push:
-    branches:
-      - bi-bi
+    branches-ignore: [main]
 
 jobs:
   lints:
-    if: github.event_name == 'push' && github.event.pull_request == null
+    if: github.event.pull_request.base.ref != 'main'
     runs-on: ubuntu-latest
     steps:
       - name: Your steps here
