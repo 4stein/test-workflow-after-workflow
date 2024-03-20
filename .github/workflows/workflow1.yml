@@ -31,5 +31,4 @@ jobs:
 
       - name: Run workflow if branch is in pull request
         if: steps.check_pr.outputs.in_pull_request == 'true'
-        run: |
-          # Your workflow steps here
+        run: echo "Workflow 1 completed ${{ github.event_name }}"
