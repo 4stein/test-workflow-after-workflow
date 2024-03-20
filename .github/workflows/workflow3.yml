@@ -2,7 +2,8 @@ name: Workflow 3
 
 on:
   workflow_call:
-
+  push:
+    - '**'
 jobs:
   lints:
     runs-on: ubuntu-latest
