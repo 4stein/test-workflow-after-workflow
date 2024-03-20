@@ -1,7 +1,7 @@
 name: Workflow 2
 
 on:
-  push:
+  pull_request:
     branches:
       - '**'
 
@@ -13,5 +13,8 @@ jobs:
     needs: [lints]
     runs-on: ubuntu-latest
     steps:
-      - name: Your steps here
-        run: echo "Workflow 2 triggered by Workflow 1 completion"
+      - uses: actions/checkout@v1
+      - name: Try to fail
+        run: exit 1
+      - name: Print message if we don't fail
+        run: echo Should not get here
