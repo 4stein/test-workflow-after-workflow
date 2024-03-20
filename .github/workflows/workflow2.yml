@@ -6,11 +6,11 @@ on:
       - '**'
 
 jobs:
-  workflow1:
+  lints:
     uses: ./.github/workflows/workflow1.yml
   build:
-    name: deploy
-    needs: [workflow1]
+    name: build
+    needs: [lints]
     runs-on: ubuntu-latest
     steps:
       - name: Your steps here
