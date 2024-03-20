@@ -6,8 +6,8 @@ on:
 
 jobs:
   lints:
-    if: github.event.pull_request.base.ref != 'test'
+    if: github.event.pull_request.head.ref != 'test'
     runs-on: ubuntu-latest
     steps:
       - name: Your steps here
-        run: echo "Workflow 1 completed ${{ github.event.pull_request.base.ref != 'test' }}"
+        run: echo "Workflow 1 completed ${{ github.event.pull_request.head.ref != 'test' }}"
