@@ -11,4 +11,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Your steps here
-        run: echo "Workflow 1 completed ${{ github.token }}"
+        run: echo "Workflow 1 completed ${{ github.event_name }}"
