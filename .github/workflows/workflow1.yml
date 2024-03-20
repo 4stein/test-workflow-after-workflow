@@ -2,7 +2,7 @@ name: Workflow 1
 
 on:
   push:
-    branches-ignore:
+    branches:
       - '**/pull/**' # Ignore branches with 'pull' in their name
     # branches:
     #   - '**'
@@ -12,6 +12,7 @@ on:
   workflow_call:
 jobs:
   lints:
+    if: needs.pr-check.outputs.number == null
     runs-on: ubuntu-latest
     steps:
       - name: Print event details
