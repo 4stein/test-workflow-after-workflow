@@ -1,10 +1,10 @@
 name: workflow1
 
 on:
+  workflow_call:
   push:
     branches:
       - '**'
-  workflow_call:
 
 jobs:
   lints:
