@@ -1,29 +1,25 @@
 name: Workflow 1
 
 on:
-  workflow_call:
   push:
     branches:
       - '**'
-  pull_request:
-    branches-ignore:
-      - main
+  # pull_request:
+  #   branches-ignore:
+  #     - main
+  workflow_call:
 jobs:
   lints:
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.event.pull_request == null || github.event_name == 'pull_request' && github.event.pull_request != null
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Check if branch is in pull request
-        id: check_pr
-        uses: leandrocostam/check-if-pull-request@v3
-        with:
-          github-token: ${{ github.token }}
-
-      - name: Run workflow if branch is in pull request
-        if: steps.check_pr.outputs.pull-request
+      - name: Print event details
         run: |
-          # Your workflow steps here
-          # Your workflow steps here
+          echo "Event Name: ${{ github.event_name }}"
+          echo "Repository: ${{ github.repository }}"
+          echo "Actor: ${{ github.actor }}"
+          echo "Workflow: ${{ github.workflow }}"
+          echo "Commit SHA: ${{ github.sha }}"
+          echo "Ref: ${{ github.ref }}"
+          echo "Head Ref: ${{ github.head_ref }}"
+          echo "Base Ref: ${{ github.base_ref }}"
