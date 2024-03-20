@@ -10,8 +10,5 @@ jobs:
   tests:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - name: Try to fail
-        run: exit 1
-      - name: Print message if we don't fail
-        run: echo Should not get here
+      - name: Your steps here
+        run: echo "Workflow 1 completed"
