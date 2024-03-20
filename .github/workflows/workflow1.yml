@@ -8,7 +8,8 @@ on:
 
 jobs:
   lints:
+    if: github.event.pull_request == null
     runs-on: ubuntu-latest
     steps:
       - name: Your steps here
-        run: echo "Workflow 1 completed"
+        run: echo "Workflow 1 completed ${{ github.event_name }}"
