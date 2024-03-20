@@ -8,4 +8,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Your steps here
-        run: echo "Workflow 1 completed ${{ github.event_name }}"
+        run: echo "Workflow 3 completed ${{ github.event_name }}"
