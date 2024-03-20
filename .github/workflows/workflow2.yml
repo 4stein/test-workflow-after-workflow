@@ -7,7 +7,6 @@ on:
 
 jobs:
   lints:
-    needs: [lints]
     uses: ./.github/workflows/workflow1.yml
   build:
     name: build
