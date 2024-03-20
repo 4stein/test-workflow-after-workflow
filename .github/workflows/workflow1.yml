@@ -1,12 +1,13 @@
-name: Workflow 1
+name: workflow1
 
 on:
+  workflow_call:
   push:
     branches:
       - '**'
 
 jobs:
-  test:
+  lints:
     runs-on: ubuntu-latest
     steps:
       - name: Your steps here
