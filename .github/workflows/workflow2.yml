@@ -7,11 +7,11 @@ on:
 
 jobs:
   lints:
-    uses: ./.github/workflows/workflow3.yml
+    uses: ./.github/workflows/workflow1.yml
   build:
     name: build
     needs: [lints]
     runs-on: ubuntu-latest
     steps:
       - name: Your steps here
-        run: echo "Workflow 2 triggered by Workflow 1 completion"
+        run: echo "Workflow 2 triggered by Workflow 1 completion ${{ github.event.pull_request.number}}"
