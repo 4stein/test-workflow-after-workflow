@@ -1,17 +1,17 @@
 name: Workflow 2
 
 on:
-  push:
-    branches: 
+  pull_request:
+    branches:
       - '**'
 
 jobs:
+  lints:
+    uses: ./.github/workflows/workflow1.yml
   build:
+    name: build
+    needs: [lints]
     runs-on: ubuntu-latest
-    needs: test
     steps:
-      - uses: actions/checkout@v1
-      - name: Try to fail
-        run: exit 1
-      - name: Print message if we don't fail
-        run: echo Should not get here
+      - name: Your steps here
+        run: echo "Workflow 2 triggered by Workflow 1 completion"
