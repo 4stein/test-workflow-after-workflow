@@ -1,14 +1,10 @@
-name: Workflow 1
+name: Workflow 3
 
 on:
   workflow_call:
-  push:
-    branches:
-      - '**'
 
 jobs:
   lints:
-    if: github.event.pull_request == null
     runs-on: ubuntu-latest
     steps:
       - name: Your steps here
