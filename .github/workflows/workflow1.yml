@@ -1,13 +1,14 @@
 name: Workflow 1
 
 on:
+  workflow_call:
   push:
-    branches-ignore: [main]
-
+    branches:
+      - '**'
 jobs:
   lints:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.event.pull_request != null
+    if: github.event_name == 'push' && github.event.pull_request != null || github.event_name == 'pull_request'
     steps:
       - name: Your steps here
         run: echo "Workflow 1 completed ${{ github.event_name }}"
