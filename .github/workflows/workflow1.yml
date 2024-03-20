@@ -12,7 +12,7 @@ jobs:
   lints:
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.event.pull_request == null || github.event_name == 'pull_request' && github.event.pull_request != null
-    - name: Checkout code
+      - name: Checkout code
         uses: actions/checkout@v2
         
       - name: Check if branch is in pull request
