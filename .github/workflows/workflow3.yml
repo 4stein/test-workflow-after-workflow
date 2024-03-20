@@ -1,0 +1,11 @@
+name: Workflow 3
+
+on:
+  workflow_call:
+
+jobs:
+  lints:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Your steps here
+        run: echo "Workflow 1 completed ${{ github.event_name }}"
