@@ -6,7 +6,7 @@ on:
 
 jobs:
   lints:
-    if: 1 == 0
+    if: github.event_name == 'push' && github.event.pull_request == ''
     runs-on: ubuntu-latest
     steps:
       - name: Your steps here
