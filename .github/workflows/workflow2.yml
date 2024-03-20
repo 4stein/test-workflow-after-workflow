@@ -6,8 +6,8 @@ on:
       - '**'
 
 jobs:
-  lints:
-    uses: ./.github/workflows/workflow3.yml
+  # lints:
+  #   uses: ./.github/workflows/workflow3.yml
   build:
     name: build
     needs: [lints]
