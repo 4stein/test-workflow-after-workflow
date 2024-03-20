@@ -2,7 +2,7 @@ name: Workflow 1
 
 on:
   push:
-    branches-ignore:
+    branches:
       - '**/pull/**' # Ignore branches with 'pull' in their name
     # branches:
     #   - '**'
