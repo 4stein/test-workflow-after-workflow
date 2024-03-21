@@ -15,35 +15,15 @@ jobs:
     # if: needs.pr-check.outputs.number == null
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
       - name: Get pull requests
-        id: get_pull_requests
         run: |
-          # Make the curl request to list pull requests for the repository
           PR_URL=$(curl -s -X GET "${{ github.api_url }}/repos/${{ github.repository }}/pulls?state=open" \
                     -H "Authorization: token ${{ github.token }}" \
                     -H "Accept: application/vnd.github.v3+json")
-
-          echo "::set-output name=pull_requests::$PR_URL"
+          echo "Pull Requests Response:"
+          echo "$PR_URL"
 
       - name: Check if branch is in pull requests
         run: |
-          # Extract branch reference from the workflow event payload
           BRANCH_REF="${{ github.ref }}"
-
-          # Extract head refs from pull request data
-          PR_DATA="$PR_URL"
-          HEAD_REFS=$(echo "$PR_DATA" | jq -r '.[] | .head.ref')
-
-          # Check if the branch reference is in any of the head refs
-          BRANCH_IN_PR=$(echo "$HEAD_REFS" | grep -q "$BRANCH_REF" && echo "true" || echo "false")
-
-          if [ "$BRANCH_IN_PR" == true ]; then
-            echo "Branch $BRANCH_REF is included in at least one open pull request."
-          else
-            echo "Branch $BRANCH_REF is not included in any open pull request."
-          fi
-        env:
-          PR_URL: ${{ steps.get_pull_requests.outputs.pull_requests }}
+          echo "Branch Reference: $BRANCH_REF"
