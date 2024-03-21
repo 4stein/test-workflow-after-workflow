@@ -16,7 +16,7 @@ jobs:
       - name: Set Variable
         id: set_variable
         run: |
-          echo "::set-output name=my_variable::Hello from Job 1"
+          echo "::set-output name=my_variable::${{1 == 1}}"
 
       # You can also save variables as artifacts
       - name: Save Variable as Artifact
