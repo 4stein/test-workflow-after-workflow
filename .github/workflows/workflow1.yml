@@ -7,7 +7,7 @@ on:
     branches:
       - '**'
 jobs:
-  lints:
+  job1:
     # if: needs.pr-check.outputs.number != null
     runs-on: ubuntu-latest
     outputs:
