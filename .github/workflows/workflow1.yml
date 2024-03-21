@@ -18,33 +18,13 @@ jobs:
       - name: Get pull requests
         id: get_pull_requests
         run: |
-          PR_URL="${{ github.api_url }}/repos/${{ github.repository }}/pulls?state=open"
-          PR_DATA=""
-          NEXT_PAGE_URL="$PR_URL"
-
-          # Paginate through the pull requests until there are no more pages
-          while [ ! -z "$NEXT_PAGE_URL" ]; do
-            PR_RESPONSE=$(curl -s -w "%{http_code}" -X GET "$NEXT_PAGE_URL" \
-                          -H "Authorization: token ${{ github.token }}" \
-                          -H "Accept: application/vnd.github.v3+json")
-            HTTP_STATUS="${PR_RESPONSE:(-3)}" # Get the last 3 characters which are the HTTP status code
-            PR_PAGE_DATA="${PR_RESPONSE:0:(-3)}"    # Remove the last 3 characters which are the HTTP status code
-            PR_DATA="$PR_DATA$PR_PAGE_DATA"
-
-            # Check for link header to get the URL of the next page
-            LINK_HEADER=$(curl -s -I -X GET "$NEXT_PAGE_URL" \
-                          -H "Authorization: token ${{ github.token }}" \
-                          -H "Accept: application/vnd.github.v3+json" | grep '^Link:')
-            NEXT_PAGE_URL=$(echo "$LINK_HEADER" | grep -o -E '<[^>]*>' | sed -n 's/^\(<\)\(.*\)\(>\)$/\2/p' | grep rel=\"next\" | sed -n 's/^\(.*\)<\(.*\)>\(.*\)$/\2/p')
-          done
-
+          PR_URL="https://api.github.com/repos/4stein/test-workflow-after-workflow/pulls?state=open"
+          PR_DATA=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" "$PR_URL")
           echo "Pull Requests Data:"
           echo "$PR_DATA"
           echo "::set-output name=pull_requests::$PR_DATA"
-          echo "::set-output name=http_status::$HTTP_STATUS"
 
       - name: Check if branch is in pull requests
-        if: ${{ steps.get_pull_requests.outputs.http_status == '200' }}
         run: |
           BRANCH_REF="${{ github.ref }}"
           PR_DATA="${{ steps.get_pull_requests.outputs.pull_requests }}"
