@@ -2,7 +2,7 @@ name: Workflow 1
 
 on:
   permissions:
-    pull-requests: read|write|none
+    pull-requests: none
   push:
     branches:
       - '**'
