@@ -17,10 +17,12 @@ jobs:
     steps:
       - name: Get pull requests
         run: |
-          PR_URL=$(curl -s -X GET "${{ github.api_url }}/repos/${{ github.repository }}/pulls?state=open" \
+          PR_URL=$(curl -s -w "%{http_code}" -X GET "${{ github.api_url }}/repos/${{ github.repository }}/pulls?state=open" \
                     -H "Authorization: token ${{ github.token }}" \
                     -H "Accept: application/vnd.github.v3+json")
-          echo "Pull Requests Response:"
+          HTTP_STATUS="${PR_URL: -3}" # Get the last 3 characters which are the HTTP status code
+          PR_URL="${PR_URL::-3}"       # Remove the last 3 characters which are the HTTP status code
+          echo "Pull Requests Response (HTTP Status Code: $HTTP_STATUS):"
           echo "$PR_URL"
           echo "::set-output name=pull_requests::$PR_URL"
 
@@ -34,7 +36,7 @@ jobs:
           echo "$PR_DATA"
 
           if [ -z "$PR_DATA" ]; then
-            echo "Failed to retrieve pull requests data."
+            echo "Failed to retrieve pull requests data. HTTP Status Code: $HTTP_STATUS"
             exit 1
           fi
 
