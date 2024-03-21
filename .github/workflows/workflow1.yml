@@ -1,12 +1,12 @@
 name: Workflow 1
 
 on:
-  permissions:
-    pull-requests: none
+  # permissions:
+  #   pull-requests: none
   push:
     branches:
       - '**'
-    # types: [push]
+    types: [closed]
 
 jobs:
   build:
