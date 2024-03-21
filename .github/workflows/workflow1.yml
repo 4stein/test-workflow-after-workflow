@@ -45,6 +45,7 @@ jobs:
   #   uses: ./.github/workflows/workflow2.yml
   build:
     name: build
+    needs: [lints]
     runs-on: ubuntu-latest
     steps:
       - name: Your steps here
