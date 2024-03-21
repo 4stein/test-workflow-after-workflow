@@ -28,35 +28,50 @@ jobs:
           echo "::set-output name=pull_requests::$PR_DATA"
           echo "::set-output name=http_status::$HTTP_STATUS"
 
+      - name: Check response format
+        run: |
+          PR_DATA="${{ steps.get_pull_requests.outputs.pull_requests }}"
+          echo "Raw Pull Requests Response:"
+          echo "$PR_DATA"
+
+          # Check if the response starts with a square bracket
+          if [[ "$PR_DATA" == "["* ]]; then
+            echo "The response seems to be a valid JSON array."
+          else
+            echo "The response does not seem to be a valid JSON array."
+            echo "Raw response may need to be adjusted or sanitized."
+          fi
+
+          # Check if the response ends with a square bracket
+          if [[ "$PR_DATA" == *"]" ]]; then
+            echo "The response seems to be properly terminated."
+          else
+            echo "The response may be incomplete or improperly terminated."
+          fi
+
       - name: Check if branch is in pull requests
+        if: ${{ steps.get_pull_requests.outputs.http_status == '200' }}
         run: |
           BRANCH_REF="${{ github.ref }}"
           PR_DATA="${{ steps.get_pull_requests.outputs.pull_requests }}"
-          HTTP_STATUS="${{ steps.get_pull_requests.outputs.http_status }}"
 
           echo "Branch Reference: $BRANCH_REF"
           echo "Pull Requests Data:"
           echo "$PR_DATA"
-          echo "HTTP Status Code: $HTTP_STATUS"
 
-          if [ "$HTTP_STATUS" != "200" ]; then
-            echo "Failed to retrieve pull requests data. HTTP Status Code: $HTTP_STATUS"
-            exit 1
-          fi
+          # Proceed with parsing JSON only if the response format is valid
+          if [[ "$PR_DATA" == "["* && "$PR_DATA" == *"]" ]]; then
+            HEAD_REFS=$(echo "$PR_DATA" | jq -r '.[] | .head.ref')
+            echo "Head Refs:"
+            echo "$HEAD_REFS"
 
-          if [ -z "$PR_DATA" ]; then
-            echo "No pull requests found."
-            exit 0
-          fi
+            BRANCH_IN_PR=$(echo "$HEAD_REFS" | grep -q "$BRANCH_REF" && echo "true" || echo "false")
 
-          HEAD_REFS=$(echo "$PR_DATA" | jq -r '.[] | .head.ref')
-          echo "Head Refs:"
-          echo "$HEAD_REFS"
-
-          BRANCH_IN_PR=$(echo "$HEAD_REFS" | grep -q "$BRANCH_REF" && echo "true" || echo "false")
-
-          if [ "$BRANCH_IN_PR" == true ]; then
-            echo "Branch $BRANCH_REF is included in at least one open pull request."
+            if [ "$BRANCH_IN_PR" == true ]; then
+              echo "Branch $BRANCH_REF is included in at least one open pull request."
+            else
+              echo "Branch $BRANCH_REF is not included in any open pull request."
+            fi
           else
-            echo "Branch $BRANCH_REF is not included in any open pull request."
+            echo "Cannot proceed with parsing JSON due to invalid response format."
           fi
