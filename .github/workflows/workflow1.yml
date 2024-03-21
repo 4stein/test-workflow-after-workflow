@@ -1,8 +1,12 @@
 name: Workflow 1
 
 on:
+  permissions:
+    pull-requests: read|write|none
   push:
-    types:
+    branches:
+      - '**'
+    # types: [push]
 
 jobs:
   build:
