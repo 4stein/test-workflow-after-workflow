@@ -36,10 +36,5 @@ jobs:
         run: echo "Visual Step after skip"
   build:
     uses: ./.github/workflows/workflow2.yml
-    name: build
     if: github.event_name == 'push' && steps.PR.outputs.pr_found != 'true'
     needs: [lints]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Your steps here
-        run: echo "Workflow 2 triggered by Workflow 1 completion ${{ github.event.pull_request.number}}"
