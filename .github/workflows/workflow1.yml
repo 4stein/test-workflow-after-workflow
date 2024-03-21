@@ -16,28 +16,37 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Get pull requests
+        id: get_pull_requests
         run: |
-          PR_URL=$(curl -s -w "%{http_code}" -X GET "${{ github.api_url }}/repos/${{ github.repository }}/pulls?state=open" \
-                    -H "Authorization: token ${{ github.token }}" \
-                    -H "Accept: application/vnd.github.v3+json")
-          HTTP_STATUS="${PR_URL: -3}" # Get the last 3 characters which are the HTTP status code
-          PR_URL="${PR_URL::-3}"       # Remove the last 3 characters which are the HTTP status code
+          PR_RESPONSE=$(curl -s -w "%{http_code}" -X GET "${{ github.api_url }}/repos/${{ github.repository }}/pulls?state=open" \
+                        -H "Authorization: token ${{ github.token }}" \
+                        -H "Accept: application/vnd.github.v3+json")
+          HTTP_STATUS="${PR_RESPONSE:(-3)}" # Get the last 3 characters which are the HTTP status code
+          PR_DATA="${PR_RESPONSE:0:(-3)}"    # Remove the last 3 characters which are the HTTP status code
           echo "Pull Requests Response (HTTP Status Code: $HTTP_STATUS):"
-          echo "$PR_URL"
-          echo "::set-output name=pull_requests::$PR_URL"
+          echo "$PR_DATA"
+          echo "::set-output name=pull_requests::$PR_DATA"
+          echo "::set-output name=http_status::$HTTP_STATUS"
 
       - name: Check if branch is in pull requests
         run: |
           BRANCH_REF="${{ github.ref }}"
           PR_DATA="${{ steps.get_pull_requests.outputs.pull_requests }}"
+          HTTP_STATUS="${{ steps.get_pull_requests.outputs.http_status }}"
 
           echo "Branch Reference: $BRANCH_REF"
           echo "Pull Requests Data:"
           echo "$PR_DATA"
+          echo "HTTP Status Code: $HTTP_STATUS"
 
-          if [ -z "$PR_DATA" ]; then
+          if [ "$HTTP_STATUS" != "200" ]; then
             echo "Failed to retrieve pull requests data. HTTP Status Code: $HTTP_STATUS"
             exit 1
+          fi
+
+          if [ -z "$PR_DATA" ]; then
+            echo "No pull requests found."
+            exit 0
           fi
 
           HEAD_REFS=$(echo "$PR_DATA" | jq -r '.[] | .head.ref')
