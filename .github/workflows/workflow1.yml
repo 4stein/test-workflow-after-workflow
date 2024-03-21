@@ -32,7 +32,7 @@ jobs:
       - name: 'Set Variable - Pull Request ${{ steps.PR.outputs.number }}'
         id: set_variable
         run: |
-          echo "::set-output name=my_variable::${{ 1 == 1}}"
+          echo "::set-output name=my_variable::Hello from Job 1"
         # run: echo "Workflow 1 completed |
         #   event_name:${{ github.event_name }} |
         #   pr_found:${{ steps.PR.outputs.pr_found }}"
