@@ -10,6 +10,8 @@ jobs:
   lints:
     # if: needs.pr-check.outputs.number != null
     runs-on: ubuntu-latest
+    outputs:
+      my_variable: ${{ steps.set_variable.outputs.is_in_pr }}
     steps:
       - name: Print event details
         run: |
@@ -28,13 +30,16 @@ jobs:
         id: PR
 
       - name: 'Pull Request ${{ steps.PR.outputs.number }}'
-        if: github.event_name == 'push' && steps.PR.outputs.pr_found != 'true' || github.event_name == 'pull_request' && steps.PR.outputs.pr_found != 'true'
-        run: echo "Workflow 1 completed |
-          event_name:${{ github.event_name }} |
-          pr_found:${{ steps.PR.outputs.pr_found }}"
+        - name: Set Variable
+        id: set_variable
+        run: |
+          echo "::set-output name=my_variable::${{ github.event_name == 'push' && steps.PR.outputs.pr_found != 'true' || github.event_name == 'pull_request' && steps.PR.outputs.pr_found != 'true' }}"
+        # run: echo "Workflow 1 completed |
+        #   event_name:${{ github.event_name }} |
+        #   pr_found:${{ steps.PR.outputs.pr_found }}"
       - name: Here is a next step
         run: echo "Visual Step after skip"
   build:
     needs: [lints]
-    if: github.event_name == 'push' && steps.PR.outputs.pr_found != 'true'
+    if: needs.job1.outputs.my_variable == 'true'
     uses: ./.github/workflows/workflow2.yml
