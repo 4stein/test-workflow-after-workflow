@@ -24,13 +24,13 @@ jobs:
         run: |
           # Make the curl request to list pull requests for the repository
           PR_URL=$(curl -s -X GET "${{ github.api_url }}/repos/${{ github.repository }}/pulls?state=open" \
-                  -H "Authorization: token ${{ github.token }}" \
+                  -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
                   -H "Accept: application/vnd.github.v3+json")
 
           # Check if the branch is associated with any open pull requests
-          PR_FOUND=$(echo "$PR_URL" | jq --arg branch "${{ github.ref }}" '.[] | select(.head.ref == $branch)')
+          PR_FOUND=$(echo "$PR_URL" | jq --arg branch "${{ github.ref }}" '.[] | select(.head.ref == $branch) | length')
 
-          if [ -n "$PR_FOUND" ]; then
+          if [ "$PR_FOUND" -gt 0 ]; then
             echo "Branch is associated with an open pull request."
             echo "::set-output name=branch_in_pr::true"
           else
