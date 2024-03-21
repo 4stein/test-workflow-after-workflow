@@ -21,4 +21,4 @@ jobs:
 
     steps:
       - name: Your Step
-        run: echo "Your step is executed."
+        run: echo "Your step is executed. ${{needs.pr-check.outputs.number}}"
