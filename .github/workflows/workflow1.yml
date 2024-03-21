@@ -31,3 +31,5 @@ jobs:
         run: echo "Workflow 1 completed |
           event_name:${{ github.event_name }} |
           pr_found:${{ steps.PR.outputs.pr_found }}"
+      - name: Here is a next step
+        run: echo "Visual Step after skip"
