@@ -23,6 +23,8 @@ jobs:
           echo "Ref: ${{ github.ref }}"
           echo "Head Ref: ${{ github.head_ref }}"
           echo "Base Ref: ${{ github.base_ref }}"
+          echo "Pull_request: ${{ github.event.pull_request }}"
+
       - uses: 8BitJonny/gh-get-current-pr@3.0.0
         id: PR
 
