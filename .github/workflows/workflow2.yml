@@ -4,7 +4,7 @@ on:
   workflow_call:
 
 jobs:
-  if: github.event.pull_request != null
+  # if: github.event.pull_request != null
   build:
     name: build
     runs-on: ubuntu-latest
