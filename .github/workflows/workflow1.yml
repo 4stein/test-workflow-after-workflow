@@ -18,4 +18,6 @@ jobs:
       - uses: 8BitJonny/gh-get-current-pr@3.0.0
         id: PR
 
-      - run: echo "Your PR number is ${{ steps.PR.outputs.number }} and its JSON is ${{ steps.PR.outputs.pr }}"
+      - name: 'Pull Request ${{ steps.PR.outputs.number }}'
+        if: steps.PR.outputs.pr_found == 'true'
+        run: echo "Workflow 1 completed ${{ github.event.workflow }}"
