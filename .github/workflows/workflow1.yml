@@ -36,4 +36,5 @@ jobs:
 
     steps:
       - name: Get Variable
-        run: echo "Variable received: ${{ needs.job1.outputs.my_variable }}"
+        run: |
+          echo "Variable received: ${{ needs.job1.outputs.my_variable }}"
