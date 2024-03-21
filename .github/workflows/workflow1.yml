@@ -14,11 +14,8 @@ jobs:
   lints:
     # if: needs.pr-check.outputs.number == null
     runs-on: ubuntu-latest
-    if: |
-      github.event_name == 'pull_request' ||
-      (github.event_name == 'push' &&
-      !github.event.pull_request)
-
     steps:
-      - name: Your Step
-        run: echo "Your step is executed. ${{needs}}"
+      - uses: 8BitJonny/gh-get-current-pr@3.0.0
+        id: PR
+
+      - run: echo "Your PR number is ${{ steps.PR.outputs.number }} and its JSON is ${{ steps.PR.outputs.pr }}"
