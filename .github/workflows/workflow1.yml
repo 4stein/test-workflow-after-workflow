@@ -17,10 +17,10 @@ jobs:
       - uses: 8BitJonny/gh-get-current-pr@3.0.0
         id: PR
 
-      - name: 'Set Variable - Pull Request ${{ steps.PR.outputs.number }}'
-        id: set_variable
-        run: |
-          echo "::set-output name=my_variable::Hello from Job 1"
+      # - name: 'Set Variable - Pull Request ${{ steps.PR.outputs.number }}'
+      #   id: set_variable
+      #   run: |
+      #     echo "::set-output name=my_variable::Hello from Job 1"
       - name: Set Variable
         id: set_variable
         run: |
