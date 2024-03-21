@@ -25,21 +25,15 @@ jobs:
         id: check_branch
         run: |
           # Make the curl request to list pull requests for the repository
-          PR_URL=$(curl -s -X GET "${{ github.api_url }}/repos/${{ github.repository_owner }}/${{ github.repository }}/pulls?state=open" \
+          PR_URL=$(curl -s -X GET "${{ github.api_url }}/repos/${{ github.repository }}/pulls?state=open" \
                   -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
                   -H "Accept: application/vnd.github.v3+json")
 
-          # Iterate over each pull request and check if the branch is associated with any
-          PR_FOUND=false
-          while IFS= read -r pr; do
-            if echo "$pr" | jq -e --arg branch "${{ github.ref }}" '.head.ref == $branch' > /dev/null; then
-              PR_FOUND=true
-              break
-            fi
-          done <<< "$PR_URL"
+          # Check if the branch is associated with any open pull requests
+          PR_FOUND=$(echo "$PR_URL" | jq --arg branch "${{ github.ref }}" '.[] | select(.head.ref == $branch) | length')
 
-          if [ "$PR_FOUND" = true ]; then
-            echo "Branch is associated with an open pull request: $PR_URL"
+          if [ "$PR_FOUND" -gt 0 ]; then
+            echo "Branch is associated with an open pull request."
             echo "::set-output name=branch_in_pr::true"
           else
             echo "Branch is not associated with any open pull request."
