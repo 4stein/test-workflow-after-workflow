@@ -26,7 +26,7 @@ jobs:
         run: |
           # Make the curl request to list pull requests for the repository
           PR_URL=$(curl -s -X GET "${{ github.api_url }}/repos/${{ github.repository }}/pulls?state=open" \
-                  -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+                  -H "Authorization: token ${{ github.token }}" \
                   -H "Accept: application/vnd.github.v3+json")
 
           # Check if the branch is associated with any open pull requests
