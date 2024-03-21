@@ -23,7 +23,7 @@ jobs:
         run: |
           echo "::set-output name=is_in_pr::${{ 
             github.event_name == 'push' && steps.PR.outputs.pr_found == 'true' 
-            || github.event_name == 'pull_request' && steps.PR.outputs.pr_found == 'true' 
+            || github.event_name == 'pull_request' && steps.PR.outputs.pr_found != 'true' 
             }}"
       - name: Here is a next step
         run: |
