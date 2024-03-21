@@ -3,11 +3,11 @@ name: Workflow 1
 on:
   # permissions:
   #   pull-requests: none
-  # push:
-  #   branches:
-  #     - '**'
-  branches-ignore:
-    - main
+  push:
+    #   branches:
+    #     - '**'
+    branches-ignore:
+      - main
   # types: [closed]
 
 jobs:
