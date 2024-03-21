@@ -33,6 +33,7 @@ jobs:
 
   job2:
     needs: job1
+    if: (needs.job1.outputs.my_variable == "true")
     runs-on: ubuntu-latest
 
     steps:
