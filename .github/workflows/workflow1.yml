@@ -22,8 +22,26 @@ jobs:
                     -H "Accept: application/vnd.github.v3+json")
           echo "Pull Requests Response:"
           echo "$PR_URL"
+          echo "::set-output name=pull_requests::$PR_URL"
 
       - name: Check if branch is in pull requests
         run: |
           BRANCH_REF="${{ github.ref }}"
-          echo "Branch Reference: $BRANCH_REF"
+          PR_DATA="$PR_URL"
+
+          if [ -z "$PR_DATA" ]; then
+            echo "Failed to retrieve pull requests data."
+            exit 1
+          fi
+
+          HEAD_REFS=$(echo "$PR_DATA" | jq -r '.[] | .head.ref')
+          echo "Head Refs:"
+          echo "$HEAD_REFS"
+
+          BRANCH_IN_PR=$(echo "$HEAD_REFS" | grep -q "$BRANCH_REF" && echo "true" || echo "false")
+
+          if [ "$BRANCH_IN_PR" == true ]; then
+            echo "Branch $BRANCH_REF is included in at least one open pull request."
+          else
+            echo "Branch $BRANCH_REF is not included in any open pull request."
+          fi
