@@ -6,6 +6,7 @@ on:
     #   - '**/pull/**' # Ignore branches with 'pull' in their name
     branches:
       - '**'
+    types: [push]
   workflow_call:
 jobs:
   lints:
