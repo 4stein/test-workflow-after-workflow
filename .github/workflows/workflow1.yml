@@ -16,26 +16,12 @@ jobs:
       - name: Print event details
         run: |
           echo "Runs Workflow 1"
-          echo "Event Name: ${{ github.event_name }}"
-          echo "Repository: ${{ github.repository }}"
-          echo "Actor: ${{ github.actor }}"
-          echo "Workflow: ${{ github.workflow }}"
-          echo "Commit SHA: ${{ github.sha }}"
-          echo "Ref: ${{ github.ref }}"
-          echo "Head Ref: ${{ github.head_ref }}"
-          echo "Base Ref: ${{ github.base_ref }}"
-          echo "Pull_request: ${{ github.event.pull_request }}"
-
       - uses: 8BitJonny/gh-get-current-pr@3.0.0
         id: PR
-
       - name: 'Set Variable - Pull Request ${{ steps.PR.outputs.number }}'
         id: set_variable
         run: |
           echo "::set-output name=is_in_pr::${{ 1 == 1}}"
-        # run: echo "Workflow 1 completed |
-        #   event_name:${{ github.event_name }} |
-        #   pr_found:${{ steps.PR.outputs.pr_found }}"
       - name: Here is a next step
         run: |
           echo "Variable received: ${{ needs.lints.outputs.is_in_pr }}"
@@ -46,6 +32,7 @@ jobs:
   build:
     name: build
     needs: [lints]
+    if: needs.job1.outputs.is_in_pr != true
     runs-on: ubuntu-latest
     steps:
       - name: Your steps here
