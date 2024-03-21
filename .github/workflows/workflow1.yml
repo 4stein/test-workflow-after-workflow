@@ -14,18 +14,13 @@ jobs:
   lints:
     # if: needs.pr-check.outputs.number == null
     runs-on: ubuntu-latest
-    steps:
-      - name: Check if branch is in pull requests
-        run: |
-          BRANCH_REF="${{ github.ref }}"
-          PR_URL="https://api.github.com/repos/${{ github.repository }}/pulls?state=open"
-          PR_DATA=$(curl -s -H "Authorization: Bearer ${{ github.token }}" "$PR_URL")
-          HEAD_REFS=$(echo "$PR_DATA" | jq -r '.[] | .head.ref')
-          BRANCH_IN_PR=$(echo "$HEAD_REFS" | grep -q "$BRANCH_REF" && echo "true" || echo "false")
+    if: >
+      github.event_name == 'pull_request' || # Skip workflow if it's a pull request event
+      (
+        github.event_name == 'push' &&  # Proceed if it's a push event
+        !(github.event.pull_request)   # Skip workflow if there's no associated pull request
+      )
 
-          if [ "$BRANCH_IN_PR" == true ]; then
-            echo "Branch $BRANCH_REF is included in at least one open pull request. Skipping workflow."
-            exit 0
-          else
-            echo "Branch $BRANCH_REF is not included in any open pull request. Continuing with workflow."
-          fi
+    steps:
+      - name: Your Step
+        run: echo "Your step is executed."
