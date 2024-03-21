@@ -17,7 +17,7 @@ jobs:
     env:
       GH_TOKEN: ${{ github.token }} # Setting the GH_TOKEN environment variable
 
-     steps:
+    steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
