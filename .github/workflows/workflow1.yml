@@ -34,6 +34,7 @@ jobs:
     uses: ./.github/workflows/workflow2.yml
   java-build:
     name: java-build
-    needs:
-      - build # job
-      - ${{ jobs.build.result == 'success' }}
+    steps:
+      - name: ${{ format('{0}Setup pages', (inputs.enableDocs && '' || 'NOT ENABLED | ') ) }}
+        if: ${{ steps.shouldUploadDocs.outputs.upload == 'true' }}
+        uses: actions/configure-pages@v3
