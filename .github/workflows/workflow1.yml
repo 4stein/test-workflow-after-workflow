@@ -24,7 +24,7 @@ jobs:
       - name: 'Set Variable - Pull Request ${{ steps.PR.outputs.number }}'
         id: set_variable
         run: |
-          echo "::set-output name=is_in_pr::${{ github.event_name == 'push' && steps.PR.outputs.pr_found}}"
+          echo "::set-output name=is_in_pr::${{ steps.PR.outputs.pr_found}}"
       - name: Here is a next step
         run: |
           echo "Variable received: ${{ steps.PR.outputs.pr_found }}"
