@@ -6,7 +6,7 @@ on:
   push:
     branches:
       - '**'
-    types: [closed]
+    # types: [closed]
 
 jobs:
   build:
