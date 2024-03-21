@@ -36,6 +36,6 @@ jobs:
     needs: [lints]
     runs-on: ubuntu-latest
     steps:
-      - name: ${{ format('{0}Setup pages', (inputs.enableDocs && '' || 'NOT ENABLED | ') ) }}
-        if: ${{ steps.shouldUploadDocs.outputs.upload == 'true' }}
-        uses: actions/configure-pages@v3
+      - name: Print event details
+        run: |
+          ${{ jobs.metaconfig.result == 'success' }}
