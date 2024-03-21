@@ -35,5 +35,5 @@ jobs:
   java-build:
     name: java-build
     needs:
-      - metaconfig # job
-      - ${{ jobs.metaconfig.result == 'success' }}
+      - build # job
+      - ${{ jobs.build.result == 'success' }}
