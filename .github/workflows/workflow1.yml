@@ -38,4 +38,4 @@ jobs:
     steps:
       - name: Print event details
         run: |
-          ${{ jobs.metaconfig.result == 'success' }}
+          ${{ needs.build.result == 'success' }}
