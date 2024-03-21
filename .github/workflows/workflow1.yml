@@ -36,5 +36,5 @@ jobs:
         run: echo "Visual Step after skip"
   build:
     # if: github.event_name == 'push' && steps.PR.outputs.pr_found != 'true'
-    # needs: [lints]
+    needs: [lints]
     uses: ./.github/workflows/workflow2.yml
