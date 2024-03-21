@@ -14,11 +14,12 @@ jobs:
   lints:
     # if: needs.pr-check.outputs.number == null
     runs-on: ubuntu-latest
-    if: |
-      github.event_name == 'pull_request' ||
-      (github.event_name == 'push' &&
-      !github.event.pull_request)
-
     steps:
-      - name: Your Step
-        run: echo "Your step is executed. ${{needs}}"
+      - uses: 8BitJonny/gh-get-current-pr@3.0.0
+        id: PR
+
+      - name: 'Pull Request ${{ steps.PR.outputs.number }}'
+        if: github.event_name == 'push' && steps.PR.outputs.pr_found != 'true' || github.event_name == 'pull_request' && steps.PR.outputs.pr_found == 'true'
+        run: [skip ci]
+      - name: Your steps here
+        run: echo "Workflow 1 completed ${{ github.event_name }}"
