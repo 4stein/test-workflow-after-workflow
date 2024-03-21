@@ -1,12 +1,14 @@
 name: Workflow 1
 
 on:
+  # push:
+  #   # branches:
+  #   #   - '**/pull/**' # Ignore branches with 'pull' in their name
+  #   branches:
+  #     - '**'
+  #   types: [push]
   push:
-    # branches:
-    #   - '**/pull/**' # Ignore branches with 'pull' in their name
-    branches:
-      - '**'
-    types: [push]
+    types: [push, tag]
   workflow_call:
 jobs:
   lints:
