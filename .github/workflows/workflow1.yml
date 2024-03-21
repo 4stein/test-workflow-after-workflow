@@ -3,10 +3,12 @@ name: Workflow 1
 on:
   # permissions:
   #   pull-requests: none
-  push:
-    branches:
-      - '**'
-    # types: [closed]
+  # push:
+  #   branches:
+  #     - '**'
+  branches-ignore:
+    - main
+  # types: [closed]
 
 jobs:
   build:
