@@ -33,7 +33,7 @@ jobs:
     if: needs.lints.outputs.is_in_pr == 'true'
     uses: ./.github/workflows/workflow2.yml
   java-build:
-    needs: [build]
+    needs: [lints]
     runs-on: ubuntu-latest
     steps:
       - name: ${{ format('{0}Setup pages', (inputs.enableDocs && '' || 'NOT ENABLED | ') ) }}
