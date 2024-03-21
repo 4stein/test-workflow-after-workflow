@@ -7,7 +7,7 @@ on:
     branches:
       - '**'
 jobs:
-  job1:
+  lints:
     # if: needs.pr-check.outputs.number != null
     runs-on: ubuntu-latest
     outputs:
@@ -25,8 +25,8 @@ jobs:
         id: set_variable
         run: |
           echo "::set-output name=my_variable::Hello from Job 1"
-  job2:
-    needs: job1
+  build:
+    needs: lints
     runs-on: ubuntu-latest
 
     steps:
