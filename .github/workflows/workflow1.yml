@@ -24,7 +24,7 @@ jobs:
           echo "::set-output name=is_in_pr::${{ steps.PR.outputs.pr_found}}"
       - name: Here is a next step
         run: |
-          echo "Variable received: ${{ steps.PR.outputs.pr_found }}"
+          echo "Variable received: ${{ needs.lints.outputs.is_in_pr }}"
   build:
     needs: [lints]
     if: needs.lints.outputs.is_in_pr == 'true'
