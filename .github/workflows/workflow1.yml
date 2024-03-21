@@ -8,7 +8,7 @@ on:
   #     - '**'
   #   types: [push]
   push:
-    types: [pull_request]
+    types: [push, pull_request, tag]
   workflow_call:
 jobs:
   lints:
