@@ -6,6 +6,9 @@ on:
     #   - '**/pull/**' # Ignore branches with 'pull' in their name
     branches:
       - '**'
+  pull_request:
+    types: [opened]
+
 jobs:
   lints:
     # if: needs.pr-check.outputs.number != null
