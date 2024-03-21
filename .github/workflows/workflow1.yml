@@ -39,4 +39,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Your steps here
-        run: echo "Workflow 2 triggered by Workflow 1 completion ${{ needs.lints.outputs.is_in_pr == true }}"
+        run: echo "Workflow 2 triggered by Workflow 1 completion ${{ needs.lints.outputs.is_in_pr == 'true' }}"
