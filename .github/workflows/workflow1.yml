@@ -19,7 +19,7 @@ jobs:
         id: PR
 
       - name: 'Pull Request ${{ steps.PR.outputs.number }}'
-        # if: github.event_name == 'push' && steps.PR.outputs.pr_found != 'true' || github.event_name == 'pull_request' && steps.PR.outputs.pr_found != 'true'
+        if: github.event_name == 'push' && steps.PR.outputs.pr_found != 'true' || github.event_name == 'pull_request' && steps.PR.outputs.pr_found != 'true'
         run: echo "Workflow 1 completed |
           event_name:${{ github.event_name }} |
           pr_found:${{ steps.PR.outputs.pr_found }}"
