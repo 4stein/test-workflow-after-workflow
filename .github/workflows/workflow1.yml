@@ -27,7 +27,11 @@ jobs:
       - name: Check if branch is in pull requests
         run: |
           BRANCH_REF="${{ github.ref }}"
-          PR_DATA="$PR_URL"
+          PR_DATA="${{ steps.get_pull_requests.outputs.pull_requests }}"
+
+          echo "Branch Reference: $BRANCH_REF"
+          echo "Pull Requests Data:"
+          echo "$PR_DATA"
 
           if [ -z "$PR_DATA" ]; then
             echo "Failed to retrieve pull requests data."
