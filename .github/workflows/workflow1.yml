@@ -14,8 +14,6 @@ jobs:
   lints:
     # if: needs.pr-check.outputs.number == null
     runs-on: ubuntu-latest
-    env:
-      GH_TOKEN: ${{ github.token }} # Setting the GH_TOKEN environment variable
 
     steps:
       - name: Checkout code
@@ -30,9 +28,9 @@ jobs:
                   -H "Accept: application/vnd.github.v3+json")
 
           # Check if the branch is associated with any open pull requests
-          PR_FOUND=$(echo "$PR_URL" | jq --arg branch "${{ github.ref }}" '.[] | select(.head.ref == $branch) | length')
+          PR_FOUND=$(echo "$PR_URL" | jq --arg branch "${{ github.ref }}" '.[] | select(.head.ref == $branch)')
 
-          if [ -n "$PR_FOUND" ] && [ "$PR_FOUND" -gt 0 ]; then
+          if [ -n "$PR_FOUND" ]; then
             echo "Branch is associated with an open pull request."
             echo "::set-output name=branch_in_pr::true"
           else
