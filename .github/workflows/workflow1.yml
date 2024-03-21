@@ -15,9 +15,9 @@ jobs:
     # if: needs.pr-check.outputs.number == null
     runs-on: ubuntu-latest
     if: |
-      github.event_name == 'pull_request' ||  # Skip workflow if it's a pull request event
-      (github.event_name == 'push' &&         # Proceed if it's a push event
-      !github.event.pull_request)             # Skip workflow if there's no associated pull request
+      github.event_name == 'pull_request' ||
+      (github.event_name == 'push' &&
+      !github.event.pull_request)
 
     steps:
       - name: Your Step
