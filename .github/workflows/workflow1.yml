@@ -4,8 +4,8 @@ on:
   push:
     # branches:
     #   - '**/pull/**' # Ignore branches with 'pull' in their name
-    # branches:
-    #   - '**'
+    branches:
+      - '**'
   workflow_call:
 jobs:
   lints:
