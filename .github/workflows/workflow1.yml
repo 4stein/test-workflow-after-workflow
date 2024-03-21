@@ -17,21 +17,27 @@ jobs:
     env:
       GH_TOKEN: ${{ github.token }} # Setting the GH_TOKEN environment variable
 
-    steps:
+     steps:
       - name: Checkout code
-        uses: actions/checkout@v2 # Adding this step to checkout the repository
+        uses: actions/checkout@v2
 
-      - name: Search Pull Requests
-        id: lints
+      - name: Check if branch is in pull request
+        id: check_branch
         run: |
-          gh pr list --search "${{ github.sha }}"
-          echo "::set-output name=success::true"
-        continue-on-error: true # Continue to the next step even if the PR search fails
+          # Make the curl request to list pull requests for the repository
+          PR_URL=$(curl -s -X GET "${{ github.api_url }}/repos/${{ github.repository_owner }}/${{ github.repository }}/pulls?state=open" \
+                  -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+                  -H "Accept: application/vnd.github.v3+json" \
+                  | jq -r --arg branch "${{ github.ref }}" '.[] | select(.head.ref == $branch) | .html_url')
 
-      - name: Check if PR search succeeded
-        if: steps.lints.outputs.success == 'true'
-        run: echo "PR search succeeded. Continuing with further processing."
+          if [ -n "$PR_URL" ]; then
+            echo "Branch is associated with an open pull request: $PR_URL"
+            echo "::set-output name=branch_in_pr::true"
+          else
+            echo "Branch is not associated with any open pull request."
+            echo "::set-output name=branch_in_pr::false"
+          fi
 
-      - name: Skip further processing if PR search failed
-        if: steps.lints.outputs.success != 'true'
-        run: echo "PR search failed. Skipping further processing."
+      - name: Use the result
+        if: steps.check_branch.outputs.branch_in_pr == 'true'
+        run: echo "Branch is in a pull request."
