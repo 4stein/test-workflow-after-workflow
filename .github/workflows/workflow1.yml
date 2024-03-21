@@ -35,6 +35,6 @@ jobs:
       - name: Here is a next step
         run: echo "Visual Step after skip"
   build:
-    # if: github.event_name == 'push' && steps.PR.outputs.pr_found != 'true'
     needs: [lints]
+    if: github.event_name == 'push' && steps.PR.outputs.pr_found != 'true'
     uses: ./.github/workflows/workflow2.yml
