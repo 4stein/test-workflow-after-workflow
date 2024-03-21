@@ -20,7 +20,8 @@ jobs:
 
       # You can also save variables as artifacts
       - name: Save Variable as Artifact
-        run: echo "Hello from Job 1" > variable.txt
+        run: |
+          echo "Variable received: ${{ needs.job1.outputs.my_variable }}"
         # Store the variable.txt file as an artifact
         # This will make it available to subsequent jobs
         # You can also define path and name for artifacts
