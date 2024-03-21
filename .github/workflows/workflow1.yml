@@ -32,7 +32,8 @@ jobs:
     needs: [lints]
     if: needs.lints.outputs.is_in_pr == 'true'
     uses: ./.github/workflows/workflow2.yml
+  java-build:
     name: java-build
     needs:
-    - metaconfig # job
-    - ${{ jobs.metaconfig.result == 'success' }} # job result
+      - metaconfig # job
+      - ${{ jobs.metaconfig.result == 'success' }}
