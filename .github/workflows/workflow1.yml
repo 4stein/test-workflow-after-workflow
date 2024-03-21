@@ -35,7 +35,7 @@ jobs:
   build:
     name: build
     needs: [lints]
-    if: needs.job1.outputs.is_in_pr == true
+    if: needs.job1.outputs.is_in_pr
     runs-on: ubuntu-latest
     steps:
       - name: Your steps here
