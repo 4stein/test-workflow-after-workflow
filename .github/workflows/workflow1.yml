@@ -28,23 +28,13 @@ jobs:
           echo "::set-output name=pull_requests::$PR_DATA"
           echo "::set-output name=http_status::$HTTP_STATUS"
 
-      - name: Check response format
+      - name: Check response completeness
         run: |
           PR_DATA="${{ steps.get_pull_requests.outputs.pull_requests }}"
-          echo "Raw Pull Requests Response:"
-          echo "$PR_DATA"
 
-          # Check if the response starts with a square bracket
-          if [[ "$PR_DATA" == "["* ]]; then
-            echo "The response seems to be a valid JSON array."
-          else
-            echo "The response does not seem to be a valid JSON array."
-            echo "Raw response may need to be adjusted or sanitized."
-          fi
-
-          # Check if the response ends with a square bracket
-          if [[ "$PR_DATA" == *"]" ]]; then
-            echo "The response seems to be properly terminated."
+          # Check if the response contains both the opening and closing square brackets
+          if [[ "$PR_DATA" =~ ^\[.*\]$ ]]; then
+            echo "The response seems to be properly formed."
           else
             echo "The response may be incomplete or improperly terminated."
           fi
@@ -60,7 +50,7 @@ jobs:
           echo "$PR_DATA"
 
           # Proceed with parsing JSON only if the response format is valid
-          if [[ "$PR_DATA" == "["* && "$PR_DATA" == *"]" ]]; then
+          if [[ "$PR_DATA" =~ ^\[.*\]$ ]]; then
             HEAD_REFS=$(echo "$PR_DATA" | jq -r '.[] | .head.ref')
             echo "Head Refs:"
             echo "$HEAD_REFS"
@@ -73,5 +63,5 @@ jobs:
               echo "Branch $BRANCH_REF is not included in any open pull request."
             fi
           else
-            echo "Cannot proceed with parsing JSON due to invalid response format."
+            echo "Cannot proceed with parsing JSON due to incomplete or improperly terminated response."
           fi
