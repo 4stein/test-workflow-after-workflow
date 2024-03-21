@@ -11,7 +11,7 @@ jobs:
     # if: needs.pr-check.outputs.number != null
     runs-on: ubuntu-latest
     outputs:
-      my_variable: ${{ steps.set_variable.outputs.is_in_pr }}
+      is_in_pr: ${{ steps.set_variable.outputs.is_in_pr }}
     steps:
       - name: Print event details
         run: |
