@@ -9,14 +9,14 @@ jobs:
   linter:
     uses: ./.github/workflows/workflow2.yml
   build_android:
-    needs: [lints]
+    needs: [linter]
     runs-on: ubuntu-latest
     steps:
       - name: Start Android Build
         run: |
           echo "Run Android Build"
   build_ios:
-    needs: [lints]
+    needs: [linter]
     runs-on: ubuntu-latest
     steps:
       - name: Start IOS Build
