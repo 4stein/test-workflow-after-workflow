@@ -18,7 +18,7 @@ jobs:
             -H "Authorization: Bearer ${{ github.token }}" \
             -H "Accept: application/vnd.github.everest-preview+json" \
             -H "Content-Type: application/json" \
-            https://api.github.com/repos/4stein/test-workflow-after-workflow2/dispatches \
+            https://api.github.com/repos/4stein/test-workflow-after-workflow/dispatches \
             --data '{"event_type": "start-deployment"}'
   # build:
   #   needs: [lints]
