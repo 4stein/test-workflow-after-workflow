@@ -6,16 +6,17 @@ on:
   workflow_dispatch:
 
 jobs:
-  lints:
-    if: needs.lints.outputs.is_in_pr == 'true'
+  linter:
     uses: ./.github/workflows/workflow2.yml
   build_android:
+    needs: [lints]
     runs-on: ubuntu-latest
     steps:
       - name: Start Android Build
         run: |
           echo "Run Android Build"
   build_ios:
+    needs: [lints]
     runs-on: ubuntu-latest
     steps:
       - name: Start IOS Build
