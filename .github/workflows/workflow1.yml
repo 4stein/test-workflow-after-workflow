@@ -1,37 +1,27 @@
-name: Workflow 1
-
+name: name: Build DEV Backstage IOS and Android
 on:
   push:
     branches:
-      - '**'
-  # pull_request:
-  #   types: [opened]
+      - test
+  workflow_dispatch:
 
 jobs:
   lints:
-    runs-on: ubuntu-latest
-    outputs:
-      is_in_pr: ${{ steps.set_variable.outputs.is_in_pr }}
-    steps:
-      - name: Print event details
-        run: |
-          echo "Runs Workflow 1"
-      - uses: 8BitJonny/gh-get-current-pr@3.0.0
-        id: PR
-      - name: 'Set Variable - Pull Request ${{ steps.PR.outputs.number }}'
-        id: set_variable
-        run: |
-          echo "::set-output name=is_in_pr::${{ 
-            github.event_name == 'push' && steps.PR.outputs.pr_found == 'true' 
-            || github.event_name == 'pull_request' && steps.PR.outputs.pr_found != 'true' 
-            }}"
-      - name: Here is a next step
-        run: |
-          echo "Variable received: ${{ steps.PR.outputs.pr_found }}"
-  build:
-    needs: [lints]
     if: needs.lints.outputs.is_in_pr == 'true'
     uses: ./.github/workflows/workflow2.yml
+  build_android:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Start Android Build
+        run: |
+          echo "Run Android Build"
+  build_ios:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Start IOS Build
+        run: |
+          echo "Run IOS Build"
+  
 
   #---------------------------------------------------------#
   # filter_jobs:
