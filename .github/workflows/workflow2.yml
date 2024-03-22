@@ -2,8 +2,11 @@ name: Linter
 
 on:
   workflow_call:
-  pull_request:
-    types: [opened]
+  push:
+    branches:
+      - '**'
+    branches-ignore:
+      - test
 
 jobs:
   # if: github.event.pull_request != null
