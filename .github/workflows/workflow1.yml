@@ -4,37 +4,21 @@ on:
   push:
     branches:
       - '**'
-  pull_request:
-    types: [opened]
 
 jobs:
-  lints:
+  deploy:
     runs-on: ubuntu-latest
-    outputs:
-      is_in_pr: ${{ steps.set_variable.outputs.is_in_pr }}
+
     steps:
-      - name: Print event details
-        run: |
-          echo "Runs Workflow 1"
-      - uses: 8BitJonny/gh-get-current-pr@3.0.0
-        id: PR
-      - name: 'Set Variable - Pull Request ${{ steps.PR.outputs.number }}'
-        id: set_variable
-        run: |
-          echo "::set-output name=is_in_pr::${{ 
-            github.event_name == 'push' && steps.PR.outputs.pr_found == 'true' 
-            || github.event_name == 'pull_request' && steps.PR.outputs.pr_found != 'true' 
-            }}"
-      - name: Here is a next step
-        run: |
-          echo "Variable received: ${{ steps.PR.outputs.pr_found }}"
+      - name: Your steps here
+        run: echo "Workflow 2 triggered by Workflow 1 completion"
       - name: Trigger Deployment
         run: |
           curl -X POST \
             -H "Authorization: Bearer ${{ github.token }}" \
             -H "Accept: application/vnd.github.everest-preview+json" \
             -H "Content-Type: application/json" \
-            https://api.github.com/repos/4stein/test-workflow-after-workflow/dispatches \
+            https://api.github.com/repos/4stein/test-workflow-after-workflow2/dispatches \
             --data '{"event_type": "start-deployment"}'
   # build:
   #   needs: [lints]
