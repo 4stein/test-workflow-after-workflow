@@ -15,7 +15,7 @@ jobs:
       - name: Check Commit Message
         id: check_message
         run: |
-          run: echo "Workflow 2 triggered by Workflow 1 completion ${{ github.event.pull_request.number}}"
+          run: echo "Workflow 3 triggered by Workflow 1 completion ${{ github.event.pull_request.number}}"
 
 # jobs:
 #   filter_jobs:
