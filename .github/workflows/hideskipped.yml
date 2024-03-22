@@ -3,7 +3,7 @@ name: Filter Skipped Jobs
 on:
   workflow_run:
     workflows: [Workflow 1]
-    types: [requested]
+    types: [queued]
 
 jobs:
   filter_jobs:
