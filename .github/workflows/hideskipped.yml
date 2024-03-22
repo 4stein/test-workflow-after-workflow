@@ -22,9 +22,11 @@ jobs:
 
       - name: Filter Skipped Jobs
         id: filter_jobs
+        # run: |
+        #   filtered_runs=$(echo "${{ steps.get_runs.outputs.runs }}" | jq '.workflow_runs[] | select(.status != "skipped")')
+        #   echo "::set-output name=filtered_runs::${filtered_runs}"
         run: |
-          filtered_runs=$(echo "${{ steps.get_runs.outputs.runs }}" | jq '.workflow_runs[] | select(.status != "skipped")')
-          echo "::set-output name=filtered_runs::${filtered_runs}"
+          echo "${{steps.get_runs.outputs.runs}}"
         shell: bash
 
       - name: Output Filtered Jobs
