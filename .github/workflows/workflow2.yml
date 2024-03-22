@@ -3,8 +3,6 @@ name: Linter
 on:
   workflow_call:
   push:
-    branches:
-      - '**'
     branches-ignore:
       - test
 
