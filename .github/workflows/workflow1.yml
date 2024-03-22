@@ -8,34 +8,34 @@ on:
     types: [opened]
 
 jobs:
-  build:
+  lints:
     runs-on: ubuntu-latest
-
+    outputs:
+      is_in_pr: ${{ steps.set_variable.outputs.is_in_pr }}
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-
-      - name: Check Commit Message
-        id: check_message
+      - name: Print event details
         run: |
-          if [[ $(git log --format=%B -n 1 $GITHUB_SHA) =~ \[ci[ _]skip\]|\[skip[ _]ci\] ]]; then
-            echo "Commit message contains [ci skip] or [skip ci]. Skipping further steps."
-            echo "::set-output name=skip_steps::true"
-          else
-            echo "Commit message does not contain [ci skip] or [skip ci]. Proceeding with further steps."
-            echo "::set-output name=skip_steps::false"
-          fi
-
-      - name: Build
-        if: steps.check_message.outputs.skip_steps != 'true'
+          echo "Runs Workflow 1"
+      - uses: 8BitJonny/gh-get-current-pr@3.0.0
+        id: PR
+      - name: 'Set Variable - Pull Request ${{ steps.PR.outputs.number }}'
+        id: set_variable
         run: |
-          # Your build commands here
-          echo "Building..."
-
-      - name: Run Tests
-        if: steps.check_message.outputs.skip_steps != 'true'
+          echo "::set-output name=is_in_pr::${{ 
+            github.event_name == 'push' && steps.PR.outputs.pr_found == 'true' 
+            || github.event_name == 'pull_request' && steps.PR.outputs.pr_found != 'true' 
+            }}"
+      - name: Here is a next step
         run: |
-          # Your test commands here
-          echo "Running tests..."
-
-      # Add more steps as needed
+          echo "Variable received: ${{ steps.PR.outputs.pr_found }}"
+  build:
+    needs: [lints]
+    if: needs.lints.outputs.is_in_pr == 'true'
+    uses: ./.github/workflows/workflow2.yml
+  # java-build:
+  #   needs: [lints]
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Print event details
+  #       run: |
+  #         ${{ jobs.lints.result == 'success' }}
