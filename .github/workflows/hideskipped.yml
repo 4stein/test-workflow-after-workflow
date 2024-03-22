@@ -1,32 +1,37 @@
-name: Filter Skipped Jobs
+name: Workflow 1
 
 on:
-  workflow_call:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    types: [opened]
 
 jobs:
-  filter_jobs:
+  lints:
     runs-on: ubuntu-latest
+    outputs:
+      is_in_pr: ${{ steps.set_variable.outputs.is_in_pr }}
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-
-      - name: Fetch Workflow Runs
-        id: get_runs
+      - name: Print event details
         run: |
-          echo "::set-output name=runs::$(curl -s -H 'Authorization: Bearer ${{ github.token }}' \
-            -X GET \
-            'https://api.github.com/repos/${{ github.repository }}/actions/runs')"
-        shell: bash
-
-      - name: Filter Skipped Jobs
-        id: filter_jobs
-        # run: |
-        #   filtered_runs=$(echo "${{ steps.get_runs.outputs.runs }}" | jq '.workflow_runs[] | select(.status != "skipped")')
-        #   echo "::set-output name=filtered_runs::${filtered_runs}"
+          echo "Runs Workflow 1"
+      - uses: 8BitJonny/gh-get-current-pr@3.0.0
+        id: PR
+      - name: 'Set Variable - Pull Request ${{ steps.PR.outputs.number }}'
+        id: set_variable
         run: |
-          echo "result ${{steps.get_runs.outputs.runs}}"
-        shell: bash
-
-      - name: Output Filtered Jobs
+          echo "::set-output name=is_in_pr::${{ 
+            github.event_name == 'push' && steps.PR.outputs.pr_found == 'true' 
+            || github.event_name == 'pull_request' && steps.PR.outputs.pr_found != 'true' 
+            }}"
+      - name: Here is a next step
         run: |
-          echo "${{ steps.filter_jobs.outputs.filtered_runs }}"
+          echo "Variable received: ${{ steps.PR.outputs.pr_found }}"
+  build:
+    needs: [lints]
+    if: needs.lints.outputs.is_in_pr == 'true'
+    uses: ./.github/workflows/workflow2.yml
+  filter_jobs:
+    needs: [lints]
+    uses: ./.github/workflows/hideskipped.yml
