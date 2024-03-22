@@ -5,6 +5,8 @@ on:
   push:
     branches:
       - '**'
+    branches-ignore:
+      - test
 
 jobs:
   # if: github.event.pull_request != null
