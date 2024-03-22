@@ -32,9 +32,6 @@ jobs:
     needs: [lints]
     if: needs.lints.outputs.is_in_pr == 'true'
     uses: ./.github/workflows/workflow2.yml
-  filter_jobs:
-    needs: [lints]
-    uses: ./.github/workflows/hideskipped.yml
   # java-build:
   #   needs: [lints]
   #   runs-on: ubuntu-latest
