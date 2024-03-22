@@ -26,7 +26,7 @@ jobs:
         #   filtered_runs=$(echo "${{ steps.get_runs.outputs.runs }}" | jq '.workflow_runs[] | select(.status != "skipped")')
         #   echo "::set-output name=filtered_runs::${filtered_runs}"
         run: |
-          echo "${{steps.get_runs.outputs.runs}}"
+          echo "result ${{steps.get_runs.outputs.runs}}"
         shell: bash
 
       - name: Output Filtered Jobs
