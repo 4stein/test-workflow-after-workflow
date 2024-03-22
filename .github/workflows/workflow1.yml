@@ -1,4 +1,4 @@
-name: name: Build DEV Backstage IOS and Android
+name: Test Build DEV Backstage IOS and Android
 on:
   push:
     branches:
@@ -21,7 +21,6 @@ jobs:
       - name: Start IOS Build
         run: |
           echo "Run IOS Build"
-  
 
   #---------------------------------------------------------#
   # filter_jobs:
