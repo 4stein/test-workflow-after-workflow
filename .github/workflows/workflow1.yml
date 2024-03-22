@@ -35,7 +35,7 @@ jobs:
             -H "Accept: application/vnd.github.everest-preview+json" \
             -H "Content-Type: application/json" \
             https://api.github.com/repos/4stein/test-workflow-after-workflow2/dispatches \
-            --data '{"event_type": "pull_request"}'
+            --data '{"event_type": "start-deployment"}'
   # build:
   #   needs: [lints]
   #   if: needs.lints.outputs.is_in_pr == 'true'

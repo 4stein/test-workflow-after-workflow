@@ -2,7 +2,7 @@ name: Filter Skipped Jobs
 
 on:
   repository_dispatch:
-    types: [pull_request]
+    types: [start-deployment]
 
 jobs:
   build:
