@@ -1,9 +1,8 @@
 name: Filter Skipped Jobs
 
 on:
-  workflow_run:
-    workflows: [Workflow 1]
-    types: [completed]
+  repository_dispatch:
+    types: [pull_request]
 
 jobs:
   build:
@@ -16,7 +15,7 @@ jobs:
       - name: Check Commit Message
         id: check_message
         run: |
-          [skip ci]
+          run: echo "Workflow 2 triggered by Workflow 1 completion ${{ github.event.pull_request.number}}"
 
 # jobs:
 #   filter_jobs:
