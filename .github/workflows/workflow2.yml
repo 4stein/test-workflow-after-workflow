@@ -1,4 +1,4 @@
-name: Workflow 2
+name: Linter
 
 on:
   workflow_call:
@@ -7,9 +7,9 @@ on:
 
 jobs:
   # if: github.event.pull_request != null
-  build:
-    name: build
+  linter:
+    name: linter
     runs-on: ubuntu-latest
     steps:
-      - name: Your steps here
-        run: echo "Workflow 2 triggered by Workflow 1 completion ${{ github.event.pull_request.number}}"
+      - name: Start linter
+        run: echo "Run Linter"
