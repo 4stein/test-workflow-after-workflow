@@ -14,6 +14,7 @@ jobs:
       is_in_pr: ${{ steps.set_variable.outputs.is_in_pr }}
     steps:
       - name: Print event details
+        checks: none
         run: |
           echo "Runs Workflow 1"
       - uses: 8BitJonny/gh-get-current-pr@3.0.0
