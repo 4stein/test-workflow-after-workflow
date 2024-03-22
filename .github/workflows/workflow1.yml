@@ -1,45 +1,16 @@
-name: Test Build DEV Backstage IOS and Android
+name: Linter
+
 on:
+  workflow_call:
   push:
-    branches:
+    branches-ignore:
       - test
-  workflow_dispatch:
 
 jobs:
+  # if: github.event.pull_request != null
   linter:
-    uses: ./.github/workflows/workflow2.yml
-  build_android:
-    needs: [linter]
+    name: linter
     runs-on: ubuntu-latest
     steps:
-      - name: Start Android Build
-        run: |
-          echo "Run Android Build"
-  build_ios:
-    needs: [linter]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Start IOS Build
-        run: |
-          echo "Run IOS Build"
-
-  #---------------------------------------------------------#
-  # filter_jobs:
-  #   needs: [lints]
-  #   uses: ./.github/workflows/hideskipped.yml
-  # java-build:
-  #   needs: [lints]
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Print event details
-  #       run: |
-  #         ${{ jobs.lints.result == 'success' }}
-  #---------------------------------------------------------#
-  # - name: Trigger Deployment
-  #   run: |
-  #     curl -X POST \
-  #       -H "Authorization: Bearer ${{ github.token }}" \
-  #       -H "Accept: application/vnd.github.everest-preview+json" \
-  #       -H "Content-Type: application/json" \
-  #       https://api.github.com/repos/4stein/test-workflow-after-workflow/dispatches \
-  #       --data '{"event_type": "start-deployment"}'
+      - name: Start linter
+        run: echo "Run Linter"
