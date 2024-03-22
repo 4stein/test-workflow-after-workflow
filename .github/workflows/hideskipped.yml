@@ -1,0 +1,19 @@
+name: Filter Skipped Jobs
+
+inputs:
+  repository: # GitHub repository (e.g., owner/repo)
+    description: 'The GitHub repository containing the workflow runs'
+    required: true
+  workflow_id: # ID of the workflow to fetch runs from
+    description: 'The ID of the workflow to fetch runs from'
+    required: true
+
+outputs:
+  filtered_runs: # Output containing filtered workflow runs
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.repository }}
+    - ${{ inputs.workflow_id }}
