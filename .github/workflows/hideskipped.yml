@@ -16,13 +16,7 @@ jobs:
       - name: Check Commit Message
         id: check_message
         run: |
-          if [[ "$(git log --format=%B -n 1 ${{ github.sha }})" =~ \[ci[ _]skip\]|\[skip[ _]ci\] ]]; then
-            echo "Commit message contains [ci skip] or [skip ci]. Skipping further steps."
-            echo "::set-output name=skip_steps::true"
-          else
-            echo "Commit message does not contain [ci skip] or [skip ci]. Proceeding with further steps."
-            echo "::set-output name=skip_steps::false"
-          fi
+          [skip ci]
 
 # jobs:
 #   filter_jobs:
