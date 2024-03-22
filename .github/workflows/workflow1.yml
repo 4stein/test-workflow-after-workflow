@@ -30,12 +30,13 @@ jobs:
           echo "Variable received: ${{ steps.PR.outputs.pr_found }}"
   build:
     needs: [lints]
+    checks: none
     if: needs.lints.outputs.is_in_pr == 'true'
     uses: ./.github/workflows/workflow2.yml
-  java-build:
-    needs: [lints]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Print event details
-        run: |
-          ${{ jobs.lints.result == 'success' }}
+  # java-build:
+  #   needs: [lints]
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Print event details
+  #       run: |
+  #         ${{ jobs.lints.result == 'success' }}
