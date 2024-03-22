@@ -31,7 +31,7 @@ jobs:
   build:
     needs: [lints]
     if: ${{ !startsWith(github.event.pull_request.title, '[Skip Checks]') }}
-    if: needs.lints.outputs.is_in_pr == 'true'
+    # if: needs.lints.outputs.is_in_pr == 'true'
     uses: ./.github/workflows/workflow2.yml
 
   #---------------------------------------------------------#
