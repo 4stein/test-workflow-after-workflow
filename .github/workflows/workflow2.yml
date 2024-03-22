@@ -1,16 +1,14 @@
 name: Workflow 2
 
 on:
+  workflow_call:
   pull_request:
-    branches:
-      - '**'
+    types: [opened]
 
 jobs:
-  lints:
-    uses: ./.github/workflows/workflow1.yml
+  # if: github.event.pull_request != null
   build:
     name: build
-    needs: [lints]
     runs-on: ubuntu-latest
     steps:
       - name: Your steps here
