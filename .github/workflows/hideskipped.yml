@@ -6,29 +6,32 @@ on:
     types: [completed]
 
 jobs:
-  filter_jobs:
+  build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Fetch Workflow Runs
-        id: get_runs
+      - name: Check Commit Message
+        id: check_message
         run: |
-          echo "::set-output name=runs::$(curl -s -H 'Authorization: Bearer ${{ github.token }}' \
-            -X GET \
-            'https://api.github.com/repos/${{ github.repository }}/actions/runs')"
-        shell: bash
+          if [[ $(git log --format=%B -n 1 $github.sha) =~ \[ci[ _]skip\]|\[skip[ _]ci\] ]]; then
+            echo "Commit message contains [ci skip] or [skip ci]. Skipping further steps."
+            echo "::set-output name=skip_steps::true"
+          else
+            echo "Commit message does not contain [ci skip] or [skip ci]. Proceeding with further steps."
+            echo "::set-output name=skip_steps::false"
+          fi
 
-      - name: Filter Skipped Jobs
-        id: filter_jobs
-        # run: |
-        #   filtered_runs=$(echo "${{ steps.get_runs.outputs.runs }}" | jq '.workflow_runs[] | select(.status != "skipped")')
-        #   echo "::set-output name=filtered_runs::${filtered_runs}"
+      - name: Build
+        if: steps.check_message.outputs.skip_steps != 'true'
         run: |
-          echo "result ${{steps.get_runs.outputs.runs}}"
-        shell: bash
+          # Your build commands here
+          echo "Building..."
 
-      - name: Output Filtered Jobs
+      - name: Run Tests
+        if: steps.check_message.outputs.skip_steps != 'true'
         run: |
-          echo "${{ steps.filter_jobs.outputs.filtered_runs }}"
+          # Your test commands here
+          echo "Running tests..."
