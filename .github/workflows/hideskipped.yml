@@ -1,19 +1,34 @@
 name: Filter Skipped Jobs
 
-inputs:
-  repository: # GitHub repository (e.g., owner/repo)
-    description: 'The GitHub repository containing the workflow runs'
-    required: true
-  workflow_id: # ID of the workflow to fetch runs from
-    description: 'The ID of the workflow to fetch runs from'
-    required: true
+on:
+  workflow_run:
+    workflows:
+      - workflow2
+    types:
+      - completed
 
-outputs:
-  filtered_runs: # Output containing filtered workflow runs
+jobs:
+  filter_jobs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
 
-runs:
-  using: 'docker'
-  image: 'Dockerfile'
-  args:
-    - ${{ inputs.repository }}
-    - ${{ inputs.workflow_id }}
+      - name: Fetch Workflow Runs
+        id: get_runs
+        run: |
+          echo "::set-output name=runs::$(curl -s -H 'Authorization: Bearer ${{ github.token }}' \
+            -X GET \
+            'https://api.github.com/repos/${{ github.repository }}/actions/runs')"
+        shell: bash
+
+      - name: Filter Skipped Jobs
+        id: filter_jobs
+        run: |
+          filtered_runs=$(echo "${{ steps.get_runs.outputs.runs }}" | jq '.workflow_runs[] | select(.status != "skipped")')
+          echo "::set-output name=filtered_runs::${filtered_runs}"
+        shell: bash
+
+      - name: Output Filtered Jobs
+        run: |
+          echo "${{ steps.filter_jobs.outputs.filtered_runs }}"
