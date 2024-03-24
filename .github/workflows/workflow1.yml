@@ -9,8 +9,8 @@ jobs:
   linter:
     uses: ./.github/workflows/workflow2.yml
   build_android:
-    name: Android build
     needs: [linter]
+    name: Android build
     runs-on: ubuntu-latest
     steps:
       - name: Start Android Build
