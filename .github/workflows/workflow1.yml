@@ -19,7 +19,7 @@ jobs:
     steps:
       - name: Start Android Build
         env:
-          PAT: ${{ secrets.PAT }}
+          PAT: ${{ secrets.PAT  }}
         run: |
           echo "Run Android Build ${{ secrets.PAT }}"
   build_ios:
