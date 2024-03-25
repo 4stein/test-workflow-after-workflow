@@ -13,4 +13,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Start linter
+        env:
+          ZZZ: ${{ 123 }}
         run: echo "Run Linter"
