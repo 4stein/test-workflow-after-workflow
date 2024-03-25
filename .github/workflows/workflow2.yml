@@ -5,6 +5,9 @@ on:
     secrets:
       PAT:
         required: true
+  push:
+    branches-ignore:
+      - test
 jobs:
   linter:
     runs-on: ubuntu-latest
