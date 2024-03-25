@@ -14,5 +14,5 @@ jobs:
     steps:
       - name: Start linter
         env:
-          ZZZ: ${{ 123 }}
+          ZELUS_PAT_TOKEN: ${{ secrets.PAT }}
         run: echo "Run Linter"
