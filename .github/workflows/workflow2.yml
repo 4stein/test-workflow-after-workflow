@@ -2,6 +2,8 @@ name: Linter
 
 on:
   workflow_call:
+    ZELUS_PAT_TOKEN:
+      required: true
   push:
     branches-ignore:
       - test
