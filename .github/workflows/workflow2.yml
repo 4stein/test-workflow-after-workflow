@@ -2,19 +2,18 @@ name: Linter
 
 on:
   workflow_call:
-    ZELUS_PAT_TOKEN:
-      required: true
-  push:
-    branches-ignore:
-      - test
-
+    secrets:
+      TEST_SECRET:
+        required: true
 jobs:
-  # if: github.event.pull_request != null
   linter:
-    name: linter
     runs-on: ubuntu-latest
+    environment: TestEnvironment
     steps:
-      - name: Start linter
-        env:
-          ZELUS_PAT_TOKEN: ${{ secrets.PAT }}
-        run: echo "Run Linter"
+      - name: Step 1
+        run: |
+          if [ "${{ secrets.TEST_SECRET }}" == "123" ]; then
+            echo "Match"
+          else
+            echo "Not matched"
+          fi
