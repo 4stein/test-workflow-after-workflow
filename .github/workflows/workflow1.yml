@@ -21,7 +21,7 @@ jobs:
         env:
           PAT: ${{ secrets.PAT }}
         run: |
-          echo "Run Android Build"
+          echo "Run Android Build ${{ secrets.PAT }}"
   build_ios:
     needs: [linter]
     name: IOS build
