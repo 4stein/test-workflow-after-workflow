@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Step 1
         run: |
-          if [ "${{ secrets.PAT }}" == "123" ]; then
+          if [ "${{ secrets.TEST_SECRET }}" == "123" ]; then
             echo "Match"
           else
             echo "Not matched"
