@@ -7,9 +7,13 @@ on:
 
 jobs:
   linter:
+    env:
+      ZELUS_PAT_TOKEN: ${{ secrets.PAT }}
     uses: ./.github/workflows/workflow2.yml
   build_android:
     needs: [linter]
+    env:
+      ZELUS_PAT_TOKEN: ${{ secrets.PAT }}
     name: Android build
     runs-on: ubuntu-latest
     steps:
