@@ -9,7 +9,7 @@ jobs:
   linter:
     uses: ./.github/workflows/workflow2.yml
     secrets:
-      TEST_SECRET: ${{ secrets.PAT }}
+      PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
   build_android:
     needs: [linter]
     env:
