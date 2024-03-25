@@ -2,9 +2,9 @@ name: Linter
 
 on:
   workflow_call:
-    secrets:
-      PAT:
-        required: true
+    # secrets:
+    #   PAT:
+    #     required: true
 jobs:
   linter:
     runs-on: ubuntu-latest
