@@ -11,6 +11,8 @@ jobs:
     environment: TestEnvironment
     steps:
       - name: Step 1
+        env:
+          PAT: ${{ secrets.PAT }}
         run: |
           if [ "${{ secrets.PAT }}" == "123" ]; then
             echo "Match"
