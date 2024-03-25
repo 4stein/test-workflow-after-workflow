@@ -14,6 +14,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Start Android Build
+        env:
+          ZZZ: ${{ 123 }}
         run: |
           echo "Run Android Build"
   build_ios:
