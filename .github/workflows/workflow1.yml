@@ -9,17 +9,17 @@ jobs:
   linter:
     uses: ./.github/workflows/workflow2.yml
     secrets:
-      PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+      PAT: ${{ secrets.PAT }}
   build_android:
     needs: [linter]
     env:
-      ZELUS_PAT_TOKEN: ${{ secrets.PAT }}
+      PAT: ${{ secrets.PAT }}
     name: Android build
     runs-on: ubuntu-latest
     steps:
       - name: Start Android Build
         env:
-          ZELUS_PAT_TOKEN: ${{ secrets.PAT }}
+          PAT: ${{ secrets.PAT }}
         run: |
           echo "Run Android Build"
   build_ios:
